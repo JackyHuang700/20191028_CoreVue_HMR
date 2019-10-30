@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import './assets/bootstrapSetting'
+// -- setting --
+import './assets/setting/bootstrap'
+import './assets/styles/index.scss'
 
 Vue.config.productionTip = false
 
