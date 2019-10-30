@@ -1,0 +1,5 @@
+// bootstrap4
+import 'popper.js'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+window.$ = window.jQuery = require('jquery')
