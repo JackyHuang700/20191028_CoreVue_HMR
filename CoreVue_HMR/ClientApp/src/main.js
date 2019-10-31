@@ -5,6 +5,7 @@ import store from './store'
 
 // -- setting --
 import './assets/setting/bootstrap'
+import './assets/setting/axios'
 import './assets/styles/index.scss'
 
 Vue.config.productionTip = false
