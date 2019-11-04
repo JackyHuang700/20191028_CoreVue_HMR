@@ -19,7 +19,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { defaultContainer } from '../store/modules/modulesName'
+import { defaultContainer } from '@/store/modules/modulesName'
 export default {
   name: 'DefaultContainer',
   methods: {
