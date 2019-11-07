@@ -8,7 +8,7 @@
     <div class="home">
       <img
         alt="Vue logo"
-        src="../assets/images/logo.png"
+        src="../../assets/images/logo.png"
       >
       <HelloWorld msg="Welcome to Your Vue.js App" />
     </div>
