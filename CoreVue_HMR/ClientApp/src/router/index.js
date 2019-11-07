@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 
 // -- DefaultContainerByCli --
 // containers
-const DefaultContainerByCli = () => import('@/containers/DefaultContainerByCli')
+const DefaultContainerByCli = () => import('@/containers/DefaultContainerByCli/Index')
 
 // -- DefaultContainer --
 // containers
-const DefaultContainer = () => import('@/containers/DefaultContainer')
+const DefaultContainer = () => import('@/containers/DefaultContainer/Index')
 
 Vue.use(VueRouter)
 
