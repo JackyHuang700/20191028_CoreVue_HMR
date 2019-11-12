@@ -89,6 +89,7 @@
           rel="noopener"
         >awesome-vue</a></li>
     </ul>
+    <button type="buton">click native demo</button>
   </div>
 </template>
 

@@ -10,7 +10,7 @@
         alt="Vue logo"
         src="../../assets/images/logo.png"
       >
-      <HelloWorld msg="Welcome to Your Vue.js App" />
+      <HelloWorld msg="Welcome to Your Vue.js App" @click.native="consoMsg"/>
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
   name: 'DefaultContainerByCli',
   components: {
     HelloWorld
+  },
+  methods: {
+    consoMsg () { console.log('click event is happen') }
   }
 }
 </script>
