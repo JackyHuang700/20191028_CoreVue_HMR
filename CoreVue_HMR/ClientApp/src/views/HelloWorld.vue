@@ -96,7 +96,10 @@
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: {
+      require: false,
+      type: String
+    }
   }
 }
 </script>
