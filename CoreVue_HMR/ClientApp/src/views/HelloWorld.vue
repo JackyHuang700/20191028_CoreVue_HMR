@@ -98,8 +98,12 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: {
-      require: false,
-      type: String
+      type: String,
+      default: '',
+      validator: function (value) {
+        return value !== undefined
+      },
+      require: false
     }
   }
 }
