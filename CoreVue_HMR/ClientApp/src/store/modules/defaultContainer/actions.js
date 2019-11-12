@@ -7,4 +7,3 @@ import * as types from './mutationsType'
 export const acitonSetNumber = ({ commit, state, rootState }, number) => {
   commit(types.SET_NUMBER, state.number + number)
 }
-src\assets\setting\img\avatars
