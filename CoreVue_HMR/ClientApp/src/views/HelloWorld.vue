@@ -89,11 +89,25 @@
           rel="noopener"
         >awesome-vue</a></li>
     </ul>
-    <button type="buton">click native demo</button>
+
+    <div>
+      <button type="buton">click native demo</button>
+    </div>
+<div>
+  <h3>props in, events out demo</h3>
+  <p>count: {{count}}</p>
+      <PropInEventsOut :count="count"></PropInEventsOut>
+</div>
+
   </div>
 </template>
 
 <script>
+import PropInEventsOut from '@/views/PropInEventsOut.vue'
+import {
+  eventBus,
+  EVENTBUS_CALCOUNT
+} from '@/store/eventBus'
 export default {
   name: 'HelloWorld',
   props: {
@@ -105,6 +119,19 @@ export default {
       },
       require: false
     }
+  },
+  components: {
+    PropInEventsOut
+  },
+  data () {
+    return {
+      count: 0
+    }
+  },
+  mounted () {
+    eventBus.$on(EVENTBUS_CALCOUNT, count => {
+      this.count = this.count + count
+    })
   }
 }
 </script>
