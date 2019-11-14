@@ -1,30 +1,28 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
     <!-- <router-view /> -->
     <div class="home">
-      <img
-        alt="Vue logo"
-        src="../../assets/images/logo.png"
-      >
-              <div>
-      <span>
-        <button type="button" @click="acitonSetNumber(1)">+</button>
-      </span>
-      <span>
-        <span>&nbsp;&nbsp;getNumber:&nbsp;</span>
-        <span>{{ getNumber }}</span>
+      <img alt="Vue logo" src="../../assets/images/logo.png" />
+      <div>
         <span>
-          &nbsp;&nbsp;
-          <button type="button" @click="acitonSetNumber(-1)">-</button>
+          <button type="button" @click="acitonSetNumber(1)">+</button>
         </span>
-      </span>
-    </div>
-    <div>
-    <HelloWorld msg="Welcome to Your Vue.js App" @click.native="consoMsg"/></div>
+        <span>
+          <span>&nbsp;&nbsp;getNumber:&nbsp;</span>
+          <span>{{ getNumber }}</span>
+          <span>
+            &nbsp;&nbsp;
+            <button type="button" @click="acitonSetNumber(-1)">-</button>
+          </span>
+        </span>
+      </div>
+      <div>
+        <HelloWorld msg="Welcome to Your Vue.js App" @click.native="consoMsg" />
+      </div>
     </div>
   </div>
 </template>
@@ -55,7 +53,6 @@ export default {
       console.log('click event is happen')
     }
   }
-
 }
 </script>
 
