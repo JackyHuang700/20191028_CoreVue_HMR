@@ -91,6 +91,7 @@
       <PropInEventsOut :initialCounter=2></PropInEventsOut>
       <PropInEventsOut :initialCounter=3></PropInEventsOut>
       <PropInEventsOut2></PropInEventsOut2>
+      <ComputedGetSet></ComputedGetSet>
     </div>
   </div>
 </template>
@@ -98,6 +99,7 @@
 <script>
 import PropInEventsOut from '@/views/PropInEventsOut.vue'
 import PropInEventsOut2 from '@/views/PropInEventsOut2.vue'
+import ComputedGetSet from '@/views/ComputedGetSet.vue'
 import {
   eventBus,
   EVENTBUS_CALCOUNT,
@@ -117,7 +119,8 @@ export default {
   },
   components: {
     PropInEventsOut,
-    PropInEventsOut2
+    PropInEventsOut2,
+    ComputedGetSet
   },
   data () {
     return {
