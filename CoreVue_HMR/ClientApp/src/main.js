@@ -4,9 +4,10 @@ import router from './router'
 import store from './store'
 
 // -- setting --
-import './assets/setting/bootstrap'
-import './assets/setting/axios'
-import './assets/styles/index.scss'
+import '@/assets/setting/bootstrap'
+import '@/assets/setting/axios'
+import '@/assets/styles/index.scss'
+import '@/assets/setting/element'
 
 // --  --
 import '@/store/systemParameter'
