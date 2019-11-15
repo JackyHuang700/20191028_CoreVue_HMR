@@ -1,30 +1,57 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
     <!-- <router-view /> -->
     <div class="home">
-      <img
-        alt="Vue logo"
-        src="../../assets/images/logo.png"
-      >
-      <HelloWorld msg="Welcome to Your Vue.js App" @click.native="consoMsg"/>
+      <img alt="Vue logo" src="../../assets/images/logo.png" />
+      <div>
+        <span>
+          <button type="button" @click="acitonSetNumber(1)">+</button>
+        </span>
+        <span>
+          <span>&nbsp;&nbsp;getNumber:&nbsp;</span>
+          <span>{{ getNumber }}</span>
+          <span>
+            &nbsp;&nbsp;
+            <button type="button" @click="acitonSetNumber(-1)">-</button>
+          </span>
+        </span>
+      </div>
+      <div>
+        <HelloWorld msg="Welcome to Your Vue.js App" @click.native="consoMsg" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+// vuex
+import { mapGetters, mapActions } from 'vuex'
+import { defaultContainer } from '@/store/modules/modulesName'
+
 // @ is an alias to /src
 import HelloWorld from '@/views/HelloWorld.vue'
+
 export default {
   name: 'DefaultContainerByCli',
   components: {
     HelloWorld
   },
+  computed: {
+    ...mapGetters({
+      getNumber: `${defaultContainer}/getNumber`
+    })
+  },
   methods: {
-    consoMsg () { console.log('click event is happen') }
+    ...mapActions({
+      acitonSetNumber: `${defaultContainer}/acitonSetNumber`
+    }),
+    consoMsg () {
+      console.log('click event is happen')
+    }
   }
 }
 </script>

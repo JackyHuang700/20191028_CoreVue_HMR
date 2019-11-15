@@ -8,6 +8,9 @@ import './assets/setting/bootstrap'
 import './assets/setting/axios'
 import './assets/styles/index.scss'
 
+// --  --
+import '@/store/systemParameter'
+
 Vue.config.productionTip = false
 
 new Vue({
