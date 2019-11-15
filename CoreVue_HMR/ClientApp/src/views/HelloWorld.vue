@@ -135,8 +135,8 @@ export default {
     }
   },
   created () {
-    eventBus.$on(EVENTBUS_CALCOUNT, count => {
-      this.totleCount = this.totleCount + count
+    eventBus.$on(EVENTBUS_CALCOUNT, ({ addCount, actionName }) => {
+      this.totleCount = this.totleCount + addCount
     })
     eventBus.$on(EVENTBUS_RESETCOUNT, this.reset)
   },

@@ -20,7 +20,7 @@ export default {
   created () {
     eventBus.$on(EVENTBUS_RESETCOUNT, this.reset)
   },
-  destroyed () {
+  beforeDestroy () {
     eventBus.$off(EVENTBUS_RESETCOUNT, this.reset)
   },
   data () {
@@ -32,7 +32,10 @@ export default {
     PropInEventsOut () {
       // 觸發事件
       this.count++
-      eventBus.$emit(EVENTBUS_CALCOUNT, 1)
+      eventBus.$emit(EVENTBUS_CALCOUNT, {
+        addCount: 1,
+        actionName: 'add'
+      })
     },
     reset () {
       this.count = 0
