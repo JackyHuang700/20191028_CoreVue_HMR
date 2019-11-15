@@ -102,15 +102,15 @@
 </template>
 
 <script>
-import PropInEventsOut from '@/views/PropInEventsOut.vue';
-import PropInEventsOut2 from '@/views/PropInEventsOut2.vue';
-import ComputedGetSet from '@/views/ComputedGetSet.vue';
-import GetSystemParameter from '@/views/GetSystemParameter.vue';
+import PropInEventsOut from '@/views/PropInEventsOut.vue'
+import PropInEventsOut2 from '@/views/PropInEventsOut2.vue'
+import ComputedGetSet from '@/views/ComputedGetSet.vue'
+import GetSystemParameter from '@/views/GetSystemParameter.vue'
 import {
   eventBus,
   EVENTBUS_CALCOUNT,
   EVENTBUS_RESETCOUNT
-} from '@/store/eventBus';
+} from '@/store/eventBus'
 export default {
   name: 'HelloWorld',
   props: {
