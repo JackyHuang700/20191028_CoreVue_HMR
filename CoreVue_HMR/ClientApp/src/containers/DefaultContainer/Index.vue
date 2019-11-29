@@ -1,18 +1,127 @@
 <template>
-  <div>
-    <span>DefaultContainer</span>
+  <div id="app">
+    <div
+      class="d2-layout-header-aside-group"
+      :style="styleLayoutMainGroup"
+      :class="{grayMode: grayActive}"
+    >
+      <!-- 半透明遮罩 -->
+      <div class="d2-layout-header-aside-mask"></div>
+      <!-- 主体内容 -->
+      <div class="d2-layout-header-aside-content" flex="dir:top">
+        <!-- 頂欄 -->
+        <div
+          class="d2-theme-header"
+          :style="{
+            opacity: this.searchActive ? 0.5 : 1
+            }"
+          flex-box="0"
+          flex
+        >
+          <div
+            class="logo-group"
+            :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}"
+            flex-box="0"
+          >
+            <img
+              v-if="asideCollapse"
+              :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`"
+            />
+            <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" />
+          </div>
+          <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
+            <d2-icon name="bars" />
+          </div>
+          <d2-menu-header flex-box="1" />
+           <!-- 頂欄右側 -->
+        <div class="d2-header-right" flex-box="0">
+          <!-- 如果你只想在開發環境顯示這個按鈕請添加 v-if="$env === 'development'" -->
+          <d2-header-search @click="handleSearchClick"/>
+                 <d2-header-log/>
+          <d2-header-color/>
+          <d2-header-fullscreen/>
+          <d2-header-theme/>
+          <d2-header-size/>
+        </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+// import d2MenuSide from './components/menu-side'
+import d2MenuHeader from './components/menu-header'
+// import d2Tabs from './components/tabs'
+import d2HeaderFullscreen from './components/header-fullscreen'
+// import d2HeaderLocales from './components/header-locales'
+import d2HeaderSearch from './components/header-search'
+import d2HeaderSize from './components/header-size'
+import d2HeaderTheme from './components/header-theme'
+// import d2HeaderUser from './components/header-user'
+import d2HeaderLog from './components/header-log'
+import d2HeaderColor from './components/header-color'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import mixinSearch from './mixins/search'
 
 export default {
-  name: 'DefaultContainer'
-
+  name: 'DefaultContainer',
+  mixins: [mixinSearch],
+  data () {
+    return {
+      // [側邊欄寬度] 正常狀態
+      asideWidth: '200px',
+      // [側邊欄寬度] 折疊狀態
+      asideWidthCollapse: '65px'
+    }
+  },
+  components: {
+    // d2MenuSide,
+    d2MenuHeader,
+    // d2Tabs,
+    d2HeaderFullscreen,
+    // d2HeaderLocales,
+    d2HeaderSearch,
+    d2HeaderSize,
+    d2HeaderTheme,
+    // d2HeaderUser,
+    d2HeaderLog,
+    d2HeaderColor
+  },
+  computed: {
+    ...mapState('d2admin', {
+      grayActive: state => state.gray.active,
+      asideCollapse: state => state.menu.asideCollapse
+    }),
+    ...mapGetters('d2admin', {
+      themeActiveSetting: 'theme/activeSetting'
+    }),
+    /**
+     * @description 最外層容器的背景圖片樣式
+     */
+    styleLayoutMainGroup () {
+      return {
+        ...(this.themeActiveSetting.backgroundImage
+          ? {
+            backgroundImage: `url('${this.$baseUrl}${
+              this.themeActiveSetting.backgroundImage
+            }')`
+          }
+          : {})
+      }
+    }
+  },
+  methods: {
+    ...mapActions('d2admin/menu', ['asideCollapseToggle']),
+    // 接收點擊切換側邊欄的按鈕
+    handleToggleAside () {
+      this.asideCollapseToggle()
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 // 註冊主題
-@import '~@/assets/style/theme/register.scss';
+@import "~@/assets/style/theme/register.scss";
 </style>
