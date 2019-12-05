@@ -1,6 +1,9 @@
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 
+// 拼接路径
+const resolve = dir => require('path').join(__dirname, dir)
+
 // 增加環境變量
 process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
@@ -29,5 +32,27 @@ module.exports = {
         changeSelector: forElementUI.changeSelector
       }])
     // -- theme-color-replacer --
+    // -- MOCK --
+    // 重新设置 alias
+    config.resolve.alias.set('@api', resolve('src/api'))
+    // 判断环境加入模拟数据
+    const entry = config.entry('app')
+    if (process.env.VUE_APP_BUILD_MODE !== 'NOMOCK') {
+      entry
+        .add('@/mock')
+        .end()
+    }
+  // -- MOCK --
+  },
+
+  // -- i18n --
+  pluginOptions: {
+    i18n: {
+      locale: 'zh-cht',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
   }
+  // -- i18n --
 }

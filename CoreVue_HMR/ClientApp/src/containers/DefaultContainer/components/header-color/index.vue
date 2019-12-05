@@ -42,3 +42,10 @@ export default {
   }
 }
 </script>
+
+<style>
+  .el-color-picker--mini{
+    box-sizing: content-box;
+  }
+
+</style>

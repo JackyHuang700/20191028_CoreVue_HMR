@@ -13,7 +13,8 @@ const routes = [
   // -- DefaultContainer --
   {
     path: '/',
-    name: 'index',
+    // name: 'index',
+    redirect: { name: 'index' },
     component: DefaultContainer,
     children: [
       // 首页
@@ -23,7 +24,7 @@ const routes = [
         meta: {
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('system/index')
       },
       // 演示页面
       {
@@ -52,6 +53,30 @@ const routes = [
           auth: true
         },
         component: _import('demo/page3')
+      },
+      // 系统 前端日志
+      {
+        path: 'log',
+        name: 'log',
+        meta: {
+          title: '前端日志',
+          auth: true
+        },
+        component: _import('system/log')
+      },
+      // 刷新页面 必须保留
+      {
+        path: 'refresh',
+        name: 'refresh',
+        hidden: true,
+        component: _import('system/function/refresh')
+      },
+      // 页面重定向 必须保留
+      {
+        path: 'redirect/:route*',
+        name: 'redirect',
+        hidden: true,
+        component: _import('system/function/redirect')
       }
     ]
   },
@@ -72,10 +97,35 @@ const routes = [
   }
 ]
 
+/**
+ * 在主框架之外显示
+ */
+const frameOut = [
+  // 登录
+  {
+    path: '/login',
+    name: 'login',
+    component: _import('system/login')
+  }
+]
+
+/**
+ * 错误页面
+ */
+const errorPage = [
+  {
+    path: '*',
+    name: '404',
+    component: _import('system/error/404')
+  }
+]
+
 // 導出需要顯示菜單的
 export const frameInRoutes = routes
 
 // 重新組織後導出
 export default [
-  ...routes
+  ...routes,
+  ...frameOut,
+  ...errorPage
 ]

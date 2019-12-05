@@ -6,7 +6,8 @@
       flex="dir:top main:center cross:center"
       @click.self="handlePanelClick"
     >
-      <d2-icon-svg class="panel-search__logo" name="d2-admin-text" />
+    <!-- 待補充 -->
+      <!-- <d2-icon-svg class="panel-search__logo" name="d2-admin-text" /> -->
       <el-autocomplete
         class="panel-search__input"
         ref="input"
