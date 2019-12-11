@@ -1,6 +1,6 @@
 {
-  "name": "adf",
-  "version": "0.1.0",
+  "name": "mTERRACE-admin",
+  "version": "1.7.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
