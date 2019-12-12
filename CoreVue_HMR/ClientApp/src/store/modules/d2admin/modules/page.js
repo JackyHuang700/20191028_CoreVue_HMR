@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import { get, cloneDeep } from 'lodash'
 import router from '@/router'
 import setting from '@/setting.js'
 
@@ -54,7 +54,7 @@ export default {
         // valid 有效列表 1, 1, 0, 1 => 有效, 有效, 失效, 有效
         const valid = []
         // 处理数据
-        state.opened = value.map(opened => {
+        const opened = value.map(opened => {
           // 忽略首页
           if (opened.fullPath === '/index') {
             valid.push(1)
@@ -68,8 +68,12 @@ export default {
           // 新的数据中一般不会携带 params 和 query, 所以旧的参数会留存
           return Object.assign({}, opened, find)
         }).filter((opened, index) => valid[index] === 1)
+
+        commit('updateStateOpenedList', opened)
+
         // 标记已经加载多标签页数据 https://github.com/d2-projects/d2-admin/issues/201
-        state.openedLoaded = true
+        commit('updateStateOpenedLoaded', true)
+
         // 根据 opened 数据生成缓存设置
         commit('keepAliveRefresh')
         // end
@@ -102,11 +106,17 @@ export default {
     openedUpdate ({ state, commit, dispatch }, { index, params, query, fullPath }) {
       return new Promise(async resolve => {
         // 更新页面列表某一项
-        let page = state.opened[index]
+        let page = cloneDeep(state.opened[index])
         page.params = params || page.params
         page.query = query || page.query
         page.fullPath = fullPath || page.fullPath
-        state.opened.splice(index, 1, page)
+
+        // 替換
+        // state.opened.splice(index, 1, page)
+        let stateOpened = cloneDeep(state.opened)
+        stateOpened.splice(index, 1, page)
+        await commit('updateStateOpened', stateOpened)
+
         // 持久化
         await dispatch('opened2db')
         // end
@@ -127,7 +137,8 @@ export default {
         newTag.query = query || newTag.query
         newTag.fullPath = fullPath || newTag.fullPath
         // 添加进当前显示的页面数组
-        state.opened.push(newTag)
+        // state.opened.push(newTag)
+        commit('pushStateOpened', newTag)
         // 如果这个页面需要缓存 将其添加到缓存设置
         if (isKeepAlive(newTag)) {
           commit('keepAlivePush', tag.name)
@@ -213,7 +224,10 @@ export default {
           // 如果这个页面是缓存的页面 将其在缓存设置中删除
           commit('keepAliveRemove', state.opened[index].name)
           // 更新数据 删除关闭的页面
-          state.opened.splice(index, 1)
+          // state.opened.splice(index, 1)
+          const openedList = cloneDeep(state.opened)
+          openedList.splice(index, 1)
+          commit('updateStateOpened', openedList)
         }
         // 持久化
         await dispatch('opened2db')
@@ -248,7 +262,10 @@ export default {
         })
         if (currentIndex > 0) {
           // 删除打开的页面 并在缓存设置中删除
-          state.opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          // state.opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          const opened = cloneDeep(state.opened)
+          opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          commit('updateStateOpened', opened)
         }
         state.current = pageAim
         if (router.app.$route.fullPath !== pageAim) {
@@ -276,7 +293,11 @@ export default {
           }
         })
         // 删除打开的页面 并在缓存设置中删除
-        state.opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
+        // state.opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
+        const opened = cloneDeep(state.opened)
+        opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
+        commit('updateStateOpened', opened)
+
         // 设置当前的页面
         state.current = pageAim
         if (router.app.$route.fullPath !== pageAim) {
@@ -305,10 +326,21 @@ export default {
         })
         // 删除打开的页面数据 并更新缓存设置
         if (currentIndex === 0) {
-          state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+          // state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+
+          let opened = cloneDeep(state.opened)
+          opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+          commit('updateStateOpened', opened)
         } else {
-          state.opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
-          state.opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          // state.opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          // state.opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+
+          let opened = cloneDeep(state.opened)
+          opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          commit('updateStateOpened', opened)
+          opened = cloneDeep(state.opened)
+          opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
+          commit('updateStateOpened', opened)
         }
         // 设置新的页面
         state.current = pageAim
@@ -329,7 +361,11 @@ export default {
     closeAll ({ state, commit, dispatch }) {
       return new Promise(async resolve => {
         // 删除打开的页面 并在缓存设置中删除
-        state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        // state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        const opened = cloneDeep(state.opened)
+        opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        commit('updateStateOpened', opened)
+
         // 持久化
         await dispatch('opened2db')
         // 关闭所有的标签页后需要判断一次现在是不是在首页
@@ -344,6 +380,11 @@ export default {
     }
   },
   mutations: {
+    updateStateOpened (state, oldOpened) { state.opened = oldOpened },
+    updateStateOpenedList (state, oldOpenedList) { state.opened = oldOpenedList },
+    updateStateOpenedLoaded (state, openedLoaded) { state.openedLoaded = openedLoaded },
+    pushStateOpened (state, opened) { state.opened.push(opened) },
+
     /**
      * @class keepAlive
      * @description 从已经打开的页面记录中更新需要缓存的页面记录

@@ -44,12 +44,13 @@ export default {
         // 记录上个值
         const old = state.value
         // store 赋值
-        state.value = await dispatch('d2admin/db/get', {
+        const value = await dispatch('d2admin/db/get', {
           dbName: 'sys',
           path: 'color.value',
           defaultValue: process.env.VUE_APP_ELEMENT_COLOR,
           user: true
         }, { root: true })
+        commit('updateStateValue', value)
         // 应用
         commit('apply', {
           oldColor: old,
@@ -61,6 +62,7 @@ export default {
     }
   },
   mutations: {
+    updateStateValue (state, value) { state.value = value },
     /**
      * @description 将 vuex 中的主题颜色设置应用到系统中
      * @param {Object} context

@@ -39,10 +39,11 @@ export default {
      * @param {Object} context
      * @param {String} size 尺寸
      */
-    set ({ state, dispatch }, size) {
+    set ({ state, dispatch, commit }, size) {
       return new Promise(async resolve => {
         // store 赋值
-        state.value = size
+        // state.value = size
+        commit('updateStateValue', size)
         // 应用
         dispatch('apply', true)
         // 持久化
@@ -60,20 +61,25 @@ export default {
      * @description 从持久化数据读取尺寸设置
      * @param {Object} context
      */
-    load ({ state, dispatch }) {
+    load ({ state, dispatch, commit }) {
       return new Promise(async resolve => {
         // store 赋值
-        state.value = await dispatch('d2admin/db/get', {
+        const value = await dispatch('d2admin/db/get', {
           dbName: 'sys',
           path: 'size.value',
           defaultValue: 'default',
           user: true
         }, { root: true })
+        commit('updateStateValue', value)
         // 应用
         dispatch('apply')
         // end
         resolve()
       })
     }
+  },
+  mutations: {
+    updateStateValue (state, value) { state.value = value }
+
   }
 }

@@ -52,10 +52,11 @@ export default {
      * 切換側邊欄展開和收縮
      * @param {Object} context
      */
-    asideCollapseToggle ({ state, dispatch }) {
+    asideCollapseToggle ({ state, dispatch, commit }) {
       return new Promise(async resolve => {
         // store 賦值
-        state.asideCollapse = !state.asideCollapse
+        // state.asideCollapse = !state.asideCollapse
+        commit('updateStateAsideCollapse', !state.asideCollapse)
         // 持久化
         await dispatch('d2admin/db/set', {
           dbName: 'sys',
@@ -71,21 +72,30 @@ export default {
      * 從持久化數據讀取側邊欄展開或者收縮
      * @param {Object} context
      */
-    asideCollapseLoad ({ state, dispatch }) {
+    asideCollapseLoad ({ state, dispatch, commit }) {
       return new Promise(async resolve => {
         // store 賦值
-        state.asideCollapse = await dispatch('d2admin/db/get', {
+        // state.asideCollapse = await dispatch('d2admin/db/get', {
+        //   dbName: 'sys',
+        //   path: 'menu.asideCollapse',
+        //   defaultValue: setting.menu.asideCollapse,
+        //   user: true
+        // }, { root: true })
+
+        const asideCollapse = await dispatch('d2admin/db/get', {
           dbName: 'sys',
           path: 'menu.asideCollapse',
           defaultValue: setting.menu.asideCollapse,
           user: true
         }, { root: true })
+        await commit('updateStateAsideCollapse', asideCollapse)
         // end
         resolve()
       })
     }
   },
   mutations: {
+    updateStateAsideCollapse (state, asideCollapse) { state.asideCollapse = asideCollapse },
     /**
      * @description 設置頂欄菜單
      * @param {Object} state state
