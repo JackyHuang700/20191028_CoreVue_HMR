@@ -349,7 +349,11 @@ export default {
     closeAll ({ state, commit, dispatch }, vm) {
       return new Promise(async resolve => {
         // 删除打开的页面 并在缓存设置中删除
-        state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        // state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        const opened = cloneDeep(state.opened)
+        opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
+        commit('setOpened', opened)
+
         // 持久化
         await dispatch('opend2db')
         // 关闭所有的标签页后需要判断一次现在是不是在首页
