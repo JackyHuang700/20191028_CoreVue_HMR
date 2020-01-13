@@ -21,7 +21,7 @@ Vue.use(d2Admin, { store })
 
 // Vue.config.productionTip = false
 Vue.config.productionTip = process.env.NODE_ENV !== 'production'
-Vue.config.devTools = process.env.NODE_ENV !== 'production'
+Vue.config.devTools = process.env.NODE_ENV === 'production'
 
 new Vue({
   router,
