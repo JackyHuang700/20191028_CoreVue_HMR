@@ -3,5 +3,12 @@ export default {
     pageHeader: {
       demo: 'サンプル'
     }
+  },
+  layout: {
+    'header-aside': {
+      'menu-side': {
+        'empty': 'サイドバーメニューなし'
+      }
+    }
   }
 }
