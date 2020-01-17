@@ -31,6 +31,7 @@
           <d2-header-fullscreen/>
           <d2-header-theme/>
           <d2-header-size/>
+          <d2-header-locales/>
           <d2-header-user/>
         </div>
       </div>
@@ -93,6 +94,7 @@ export default {
     'd2-menu-header': () => import('./components/menu-header'),
     'd2-tabs': () => import('./components/tabs'),
     'd2-header-fullscreen': () => import('./components/header-fullscreen'),
+    'd2-header-locales': () => import('./components/header-locales'),
     'd2-header-search': () => import('./components/header-search'),
     'd2-header-size': () => import('./components/header-size'),
     'd2-header-theme': () => import('./components/header-theme'),
